@@ -7,28 +7,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Clock, RotateCcw, CheckCircle, Lightbulb, AlertCircle, Heart } from 'lucide-react';
+import { Clock, RotateCcw, Lightbulb, AlertCircle } from 'lucide-react';
 
 interface GameControlsProps {
   difficulty: 'easy' | 'medium' | 'hard';
   onDifficultyChange: (difficulty: 'easy' | 'medium' | 'hard') => void;
   onReset: () => void;
-  onCheck: () => void;
   onHint: () => void;
   timer: number;
   errors: number;
-  lives: number;
 }
 
 const GameControls: React.FC<GameControlsProps> = ({
   difficulty,
   onDifficultyChange,
   onReset,
-  onCheck,
   onHint,
   timer,
   errors,
-  lives
 }) => {
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
@@ -48,7 +44,7 @@ const GameControls: React.FC<GameControlsProps> = ({
   return (
     <div className="game-card p-4 mb-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        {/* Left side - Difficulty and Timer */}
+        {/* Left side - Difficulty, Timer, and Errors */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <label className="text-sm font-medium text-foreground">المستوى:</label>
@@ -77,20 +73,6 @@ const GameControls: React.FC<GameControlsProps> = ({
               أخطاء: {errors}
             </span>
           </div>
-
-          {/* Lives */}
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-destructive/10 rounded-lg border border-destructive/20">
-            <Heart className={`w-4 h-4 ${lives > 0 ? 'text-destructive' : 'text-muted-foreground'}`} />
-            <span className="text-sm font-medium text-destructive">{lives}</span>
-            <div className="flex gap-1">
-              {[...Array(5)].map((_, i) => (
-                <Heart 
-                  key={i} 
-                  className={`w-3 h-3 ${i < lives ? 'text-destructive fill-destructive' : 'text-muted-foreground'}`} 
-                />
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* Right side - Action buttons */}
@@ -103,16 +85,6 @@ const GameControls: React.FC<GameControlsProps> = ({
           >
             <Lightbulb className="w-4 h-4" />
             تلميحة
-          </Button>
-          
-          <Button 
-            variant="secondary" 
-            size="sm" 
-            onClick={onCheck}
-            className="flex items-center gap-2"
-          >
-            <CheckCircle className="w-4 h-4" />
-            فحص الحل
           </Button>
           
           <Button 
